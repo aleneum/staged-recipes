@@ -1,0 +1,55 @@
+{% set name = "pyA" %}
+{% set version = "0.2" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: 367757a3966c5d621dc99aa5de19863578fa8b2792248b7bd543075e33750e73
+
+build:
+  noarch: python
+  number: 0
+  script: "{{ PYTHON }} -m pip install . -vv"
+
+requirements:
+  host:
+    - python >=3
+    - pip
+  run:
+    - python >=3
+    - numpy
+    - scipy
+    - matplotlib
+    - pyaudio >=0.2.11 
+    - audioread
+
+test:
+  imports:
+    - pya
+  requires:
+    - nose
+    - coverage
+    - pycodestyle
+  commands:
+    - nosetests --with-coverage --cover-package=pya
+
+about:
+  home: https://github.com/thomas-hermann/pya
+  license: MIT
+  license_family: MIT
+  license_file: LICENSE
+  summary: 'Python audio coding classes - for dsp and sonification'
+
+  description: |
+    pyA is a package to support creation and manipulation of audio signals
+    with Python. It uses numpy arrays to store and compute audio signals.
+  dev_url: https://github.com/thomas-hermann/pya
+
+extra:
+  recipe-maintainers:
+    - thomas-hermann
+    - wiccy46
+    - aleneum
